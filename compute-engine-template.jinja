@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 #}
 
-{% set  NETWORK_NAME = "once-upon-a-custom-network" %}
+{% set  NETWORK_NAME = "splunk-sub" %}
 
 resources:
 - name: splunk-node
@@ -22,14 +22,13 @@ resources:
     machineType: n1-standard-1
     zone: europe-west4-a
     network: {{ NETWORK_NAME }}
-- name: splunk-peer
+- name: splunk-peers
   type: splunk-instance-group.jinja
   properties:
     machineType: g1-small
     zone: europe-west4-a
     network: {{ NETWORK_NAME }}
     size: 4
-    instanceTemplate: splunk-peer.jinja
 - name: {{ NETWORK_NAME }}
   type: network-template.jinja
 - name: {{ NETWORK_NAME }}-firewall

@@ -14,10 +14,17 @@ limitations under the License.
 #}
 
 resources:
-- name: {{ env["name"] }}
-  type: compute.v1.instanceGroup
+- name: splunk-peer
+  type: splunk-peer.jinja
+  properties:
+    machineType: n1-standard-1
+    network: {{ properties["network"] }}
+- name: {{ env["name"] }}-group
+  type: compute.v1.instanceGroupManager
   properties:
     zone: {{ properties["zone"] }}
     targetSize: {{ properties["size"] }}
     baseInstanceName: {{ env["name"] }}-instance
-    instanceTemplate: {{ properties["instanceTemplate"] }}
+    instanceTemplate: $(ref.splunk-peer.selfLink)
+
+

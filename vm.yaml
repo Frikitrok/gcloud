@@ -23,12 +23,12 @@
 # see https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types.
 
 imports:
+- path: compute-engine-template.jinja
 - path: splunk-node.jinja
 - path: splunk-peer.jinja
 - path: splunk-instance-group.jinja 
 - path: network-template.jinja
 - path: firewall-template.jinja
-- path: compute-engine-template.jinja
 
 resources:
 - name: compute-engine-setup
