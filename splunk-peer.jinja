@@ -40,6 +40,7 @@ resources:
             cd /opt/splunk
             sudo ./bin/splunk start --accept-license
             sudo ./bin/splunk enable boot-start
+            sleep 15
             sudo ./bin/splunk edit cluster-config -mode slave -master_uri https://splunk-node:8089 -replication_port 9887 -secret frikitrok -auth admin:changeme
             sudo ./bin/splunk restart 
       networkInterfaces:

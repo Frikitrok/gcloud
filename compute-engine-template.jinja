@@ -22,13 +22,20 @@ resources:
     machineType: n1-standard-1
     zone: europe-west4-a
     network: {{ NETWORK_NAME }}
-- name: splunk-peers
-  type: splunk-instance-group.jinja
+- name: splunk-peer
+  type: splunk-peer.jinja
   properties:
     machineType: g1-small
-    zone: europe-west4-a
     network: {{ NETWORK_NAME }}
-    size: 4
+    scheduling: 
+      preemptible: true
+- name: {{ env["name"] }}-group
+  type: compute.v1.instanceGroupManager
+  properties:
+    zone: europe-west4-a
+    targetSize: 4
+    baseInstanceName: {{ env["name"] }}-instance
+    instanceTemplate: $(ref.splunk-peer.selfLink)
 - name: {{ NETWORK_NAME }}
   type: network-template.jinja
 - name: {{ NETWORK_NAME }}-firewall
