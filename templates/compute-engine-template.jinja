@@ -41,6 +41,15 @@ resources:
     targetSize: {{ PEER_AMOUNT }}
     baseInstanceName: {{ env["name"] }}-instance
     instanceTemplate: $(ref.splunk-peer.selfLink)
+    node: $(red.splunk-node.networkInterfaces[0].natIp)
+- name: compute-autoscale
+  type: compute.v1.autoscaler
+  properties:
+    zone: {{ ZONE }}
+    target: $(ref.{{ INSTANC_NAME }}-group.selfLink)
+    autoscalingPolicy:
+      minNumReplicas: {{ 4 }}
+      maxNumReplicas: {{ 6 }}
 - name: {{ NETWORK_NAME }}
   type: network-template.jinja
 - name: {{ NETWORK_NAME }}-firewall
