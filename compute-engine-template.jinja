@@ -14,26 +14,31 @@ limitations under the License.
 #}
 
 {% set  NETWORK_NAME = "splunk-sub" %}
+{% set  INSTANC_NAME = "splunk" %}
+{% set  PEER_AMOUNT = 4 %}
+{% set  ZONE = "europe-west4-a" %}
 
 resources:
-- name: splunk-node
+- name: {{ INSTANC_NAME }}-node
   type: splunk-node.jinja
   properties:
     machineType: n1-standard-1
-    zone: europe-west4-a
+    zone: {{ ZONE }}
     network: {{ NETWORK_NAME }}
-- name: splunk-peer
+    metadata-from-file:
+      startup-script: node.sh
+- name: {{ INSTANC_NAME }}-peer
   type: splunk-peer.jinja
   properties:
     machineType: g1-small
     network: {{ NETWORK_NAME }}
-    scheduling: 
-      preemptible: true
-- name: {{ env["name"] }}-group
+    metadata-from-file:
+      startup-script: peer.sh
+- name: {{ INSTANC_NAME }}-group
   type: compute.v1.instanceGroupManager
   properties:
-    zone: europe-west4-a
-    targetSize: 4
+    zone: {{ ZONE }}
+    targetSize: {{ PEER_AMOUNT }}
     baseInstanceName: {{ env["name"] }}-instance
     instanceTemplate: $(ref.splunk-peer.selfLink)
 - name: {{ NETWORK_NAME }}

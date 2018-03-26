@@ -29,6 +29,8 @@ imports:
 - path: splunk-instance-group.jinja 
 - path: network-template.jinja
 - path: firewall-template.jinja
+- path: peer.sh
+- path: node.sh
 
 resources:
 - name: compute-engine-setup
